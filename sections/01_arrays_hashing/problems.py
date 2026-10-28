@@ -11,6 +11,14 @@ def two_sum(nums: List[int], target: int) -> List[int]:
     two_sum([2, 7, 11, 15], 9) -> [0, 1]
     Target: O(n) time, O(n) space.
     """
+
+    seen = {}
+
+    for i, num in nums:
+        if target - num in seen:
+            if target - num != seen[i]:
+                return [seen[target-num], i]
+        seen[num] = i
     pass
 
 
@@ -20,6 +28,14 @@ def contains_duplicate(nums: List[int]) -> bool:
     contains_duplicate([1, 2, 3, 1]) -> True
     Target: O(n) time.
     """
+
+    seen = {}
+
+    for i, num in enumerate(nums)   :
+        if num in seen:
+            return True
+        seen[num] = i
+    return False
     pass
 
 
@@ -29,7 +45,17 @@ def is_anagram(s: str, t: str) -> bool:
     is_anagram("anagram", "nagaram") -> True
     Target: O(n) time.
     """
+
+    s_arr = list(s.lower())
+    t_arr = list(t.lower())
+    if (s_arr == t_arr):
+        print("True")
+        return True
+    else:
+        print("False")
+        return False
     pass
+
 
 
 def group_anagrams(strs: List[str]) -> List[List[str]]:
@@ -43,11 +69,48 @@ def group_anagrams(strs: List[str]) -> List[List[str]]:
 
 
 def top_k_frequent(nums: List[int], k: int) -> List[int]:
+
     """Return the k most frequent values (any order).
 
     top_k_frequent([1,1,1,2,2,3], 2) -> [1, 2]
     Target: O(n) with bucket sort (O(n log k) with a heap is fine too).
     """
+    d_list = {}
+    
+    # Filling up dict with num : count
+    for i , num in enumerate(nums):
+        if num in d_list:
+            d_list[num] = d_list[num] + 1
+        else:
+            d_list[num] = 1
+    #Fill bucket_list
+
+    bucket_list = []
+    for _ in range(len(nums) + 1):
+        bucket_list.append([])  
+
+    #Fill with proper and sorted val
+    for num, count in d_list.items():
+        bucket_list[count].append(num)
+
+
+
+
+    result = []
+
+    if (k > len(bucket_list)):
+        print("k is out of bound of result, please choose smaller k value or diffrent list")
+    else:
+        for i in range(len(bucket_list) -1, -1 ,-1):
+            if bucket_list[i] == []:
+                continue    
+            else:
+                result.append(bucket_list[i])
+            if len(result) == 2:
+                break
+                
+    
+    return result
     pass
 
 
